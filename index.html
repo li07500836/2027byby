@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苗栗海線祈福親子一日遊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            /* 滿版傳統廟宇建築線條圖與朱紅色背景疊加 */
+            background-color: #6a0d0d;
+            background-image: 
+                linear-gradient(rgba(106, 13, 13, 0.88), rgba(60, 8, 8, 0.94)),
+                url("https://image.shutterstock.com/z/stock-photo-meizhou-mazu-temple-outline-drawing-2582343497.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        /* 增加傳統殿宇剪影浮水印圖層，營造濃厚宗教感 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://images.unsplash.com/photo-1590076215667-87ebffbaea00?auto=format&fit=crop&w=1920&q=80");
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: luminosity;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* 增加香火/金光閃閃的裝飾元素 */
+        .bg-lanterns {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .lantern {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(252,211,77,0.3) 0%, rgba(252,211,77,0) 70%);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
+            animation: float-up 15s infinite ease-in-out;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) translateX(0) scale(0.8); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-20vh) translateX(30px) scale(1.2); opacity: 0; }
+        }
+
+        /* 玻璃擬態質感 (Glassmorphism) - 讓卡片透出背景 */
+        main div.bg-white {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.9) !important;
+        }
+
+        /* 時間軸中央的線 */
+        .timeline-line {
+            position: absolute;
+            left: 10px; /* 手機版靠左 */
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(-50%);
+            border-radius: 9999px;
+        }
+        
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%; /* 電腦版居中 */
+            }
+            
+            /* 電腦版左右交錯排版 */
+            .timeline-item:nth-child(even) {
+                flex-direction: row-reverse;
+            }
+            .timeline-item:nth-child(even) .timeline-content {
+                padding-left: 0;
+                padding-right: 3rem; /* 48px */
+            }
+            .timeline-item:nth-child(odd) .timeline-content {
+                padding-left: 3rem; /* 48px */
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased font-sans">
+
+    <!-- 動態香火金光背景 -->
+    <div class="bg-lanterns">
+        <div class="lantern" style="width: 150px; height: 150px; left: 10%; animation-duration: 18s;"></div>
+        <div class="lantern" style="width: 200px; height: 200px; left: 80%; animation-duration: 22s; animation-delay: 2s;"></div>
+        <div class="lantern" style="width: 100px; height: 100px; left: 70%; animation-duration: 15s; animation-delay: 5s;"></div>
+        <div class="lantern" style="width: 250px; height: 250px; left: 20%; animation-duration: 25s; animation-delay: 1s;"></div>
+        <div class="lantern" style="width: 120px; height: 120px; left: 50%; animation-duration: 17s; animation-delay: 7s;"></div>
+    </div>
+
+    <!-- 頁首 -->
+    <header class="bg-gradient-to-r from-red-800 via-red-600 to-red-800 text-white shadow-lg py-10 px-4 text-center relative z-10 border-b-4 border-yellow-500">
+        <h1 class="text-3xl md:text-4xl font-bold mb-3 drop-shadow-md text-yellow-300">苗栗海線祈福親子一日遊</h1>
+        <p class="text-yellow-100 text-sm md:text-base font-medium tracking-wide">帶著寶貝看火車、走隧道，輕鬆參拜祈福去！</p>
+    </header>
+
+    <!-- 行程內容區 -->
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        
+        <!-- Google 地圖路線導航區塊 -->
+        <div class="mb-12 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100 max-w-2xl mx-auto">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">🚗 專屬行車導航路線</h2>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=垂坤食品旗艦店&waypoints=後龍清海宮%7C過港隧道%7C白沙屯拱天宮%7C山邊媽祖宮%7C石蓮園火車餐廳%7C秋茂園%7C臺鹽通霄精鹽廠&travelmode=driving" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105">
+                <i class="fa-solid fa-map-location-dot text-xl"></i>
+                <span>開啟 Google 地圖導航</span>
+            </a>
+            <p class="text-slate-500 text-sm mt-3">點擊上方按鈕，會自動將所有景點載入您的手機 Google 地圖 APP 中，方便直接開車導航。</p>
+        </div>
+
+        <div class="relative">
+            <!-- 中央線 -->
+            <div class="timeline-line"></div>
+
+            <!-- 第一站：後龍清海宮 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    上午 10:00
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+                        <img id="img-qinghai" src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QIJcIOVR2iCJ4B8u_MOgGJzXvlcfe4v8fl_9Z7oZWX8pDwhS0W-ACM0Aimvx_KS8AvVZp1z_uQBUblH7N52wQaYjHHMqzhQ7mdYkXX1mSSyPp7Rzi1pVJuxjCrI6-1NCMiS9R_Kg=s1360-w1360-h1020-rw" alt="清海宮" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-orange-100 text-brand-600 p-2 rounded-lg">
+                                <i class="fa-solid fa-om text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">後龍清海宮</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            擁有32.2公尺高的巨大媽祖石雕神像，視覺非常震撼。緊鄰台鐵海線，當火車呼嘯而過時，能捕捉到「媽祖搭火車」的罕見奇景。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-full">
+                                <i class="fa-solid fa-train"></i> 媽祖搭火車奇景
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二站：過港隧道 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    上午 11:15
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+                        <img id="img-tunnel" src="https://bobowin.blog/wp-content/uploads/20220108072004_55.jpg" alt="過港隧道" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-blue-100 text-blue-600 p-2 rounded-lg">
+                                <i class="fa-solid fa-archway text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">過港隧道</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            百年歷史的舊鐵道隧道，頂部裝飾七彩霓虹燈。路面平坦、無階梯，推嬰兒車或孩童散步非常輕鬆舒適。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-medium rounded-full">
+                                <i class="fa-solid fa-shoe-prints"></i> 平緩易走
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三站：白沙屯拱天宮 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-red-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    下午 12:30
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300 border-t-4 border-t-red-500">
+                        <img id="img-gongtian" src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9S8RLh2zCfdh53D0ZQ24K7dWxvZtTNPbYcbv4ZhY6UMTw7u8d5DIoCtvWfC4kj0Y5dRyx_AeOE_Bf38A7kbQio7kz_KIHwAyd-mmMMsMjpbSYn_hN9U_YYLc-MGJS5_EOy9I84rBhSsbsAi=s1360-w1360-h1020-rw" alt="白沙屯拱天宮" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-red-100 text-red-600 p-2 rounded-lg">
+                                <i class="fa-brands fa-fort-awesome text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">白沙屯拱天宮</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            全台知名媽祖信仰中心，香火鼎盛。帶著全家大小點香參拜祈福，周遭熱鬧並充滿海線特色小吃。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-red-50 text-red-600 text-xs font-medium rounded-full">
+                                <i class="fa-solid fa-hands-praying"></i> 誠心參拜
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四站：山邊媽祖宮 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-red-600 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    下午 13:30
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300 border-t-4 border-t-red-600">
+                        <img id="img-shanbian" src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TrtFdGXNNZwjyHtszfNVBgWnOFBxtDjnGm_ZjkwLUMicqLdeNzvPDeUIECNsVz0V8wWUV-UiYOTHuam2oLJ1_5mWWm_SbSpocJApMUMWSJXjzJs4X0Ffkw1gYI5SpRBWOp80_G=s1360-w1360-h1020-rw" alt="山邊媽祖宮" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-red-100 text-red-700 p-2 rounded-lg">
+                                <i class="fa-solid fa-place-of-worship text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">山邊媽祖宮</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            與白沙屯媽祖情誼深厚、常一同出門進香的山邊媽祖宮。環境純樸清幽，充滿莊嚴且溫馨的在地信仰氛圍。
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1 px-3 py-1 bg-red-50 text-red-700 text-xs font-medium rounded-full">
+                                <i class="fa-solid fa-dove"></i> 莊嚴清幽
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第五站：石蓮園火車餐廳 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    下午 14:15
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300 border-t-4 border-t-orange-500">
+                        <img id="img-shilian" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="石蓮園火車餐廳" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-orange-100 text-orange-600 p-2 rounded-lg">
+                                <i class="fa-solid fa-train-subway text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">石蓮園火車餐廳 (午餐)</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            由台鐵退役火車車廂改造的景觀餐廳，坐在車廂內用餐新奇有趣，窗外可欣賞無敵海景與火車奔馳畫面。
+                        </p>
+                        
+                        <!-- Menu 菜單與餐點特色 -->
+                        <div class="mt-4 bg-orange-50 p-4 rounded-xl border border-orange-200">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-bold text-orange-700 flex items-center gap-2">
+                                    <i class="fa-solid fa-utensils"></i> 車廂 Menu 推薦
+                                </h4>
+                                <a href="https://www.google.com/search?q=%E7%9F%B3%E8%93%2F%E5%9C%92%E7%81%AB%E8%BB%8A%E9%A4%90%E5%BB%B3+%E8%8F%9C%E5%96%AE" target="_blank" rel="noopener noreferrer" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-semibold">
+                                    <span>查看線上菜單</span>
+                                    <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                                </a>
+                            </div>
+                            <ul class="text-sm text-slate-700 space-y-1.5 mb-3">
+                                <li class="flex justify-between items-center border-b border-orange-200 pb-1">
+                                    <span><i class="fa-solid fa-bowl-rice text-orange-500 mr-1"></i> 古早味鐵路豬排便當</span>
+                                    <span class="font-semibold text-orange-800">招牌</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-orange-200 pb-1">
+                                    <span><i class="fa-solid fa-fish text-orange-500 mr-1"></i> 浦燒秋刀魚 / 控肉便當</span>
+                                    <span class="font-semibold text-orange-800">經典</span>
+                                </li>
+                                <li class="flex justify-between items-center">
+                                    <span><i class="fa-solid fa-mug-hot text-orange-500 mr-1"></i> 蓮花養生茶 / 冰品</span>
+                                    <span class="font-semibold text-orange-800">飲品</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第六站：秋茂園 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-green-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    下午 15:45
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+                        <img id="img-qiumao" src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QsFS7pt_saQfzaWVKWH1JNUnC21t5UyBk0SWHKg61dU6VuU-wuZmmeDXJIh6reatAgNn32ylSmJn4qJS_-rKRTnZsvbjKR84xWrfrS3p555PDixkS4vbWWRa8rDQ3CGqlOf85e=s680-w680-h510-rw" alt="通霄秋茂園" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-green-100 text-green-600 p-2 rounded-lg">
+                                <i class="fa-solid fa-tree text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">秋茂園</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            充滿懷舊氣息的通霄秋茂園，園區免費參觀。內有各種雕像與綠樹成蔭的海濱步道，適合散步吹海風。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第七站：臺鹽通霄精鹽廠 -->
+            <div class="timeline-item relative mb-16 md:mb-24 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-teal-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    下午 16:30
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+                        <img id="img-taiyen" src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QBnEHlC3xfrP5ez4ensJ2GKgardprN0ghtzuil2S80g2Ka4HJKpCrdtIcwInbPCnPe77R77wxIB6CxBSxuJAmb5lCvqqs1J8NH4PuuV0rlia1yrlcN13bGoUWlHa-QRLAJjiIG=s680-w680-h510-rw" alt="通霄觀光園區" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-teal-100 text-teal-600 p-2 rounded-lg">
+                                <i class="fa-solid fa-water text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">臺鹽通霄觀光園區</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            免費參觀的觀光工廠，最受歡迎的「海洋溫泉足湯」可溫暖雙腳，還能品嚐鹹冰棒，是放鬆的好去處。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第八站：垂坤食品旗艦店 -->
+            <div class="timeline-item relative mb-16 md:mb-0 w-full flex justify-start md:justify-center">
+                <div class="absolute left-[10px] md:left-1/2 transform md:-translate-x-1/2 -translate-y-1/2 bg-amber-500 text-white w-28 py-1 rounded-full text-center text-sm font-bold z-10 shadow-md">
+                    下午 17:30
+                </div>
+                
+                <div class="timeline-content w-full md:w-5/12 pl-12 md:pl-0 mt-6 md:mt-0 relative">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow duration-300 border-t-4 border-t-amber-400">
+                        <img id="img-chuikun" src="https://springhappylife.tw/wp-content/uploads/2023/01/20230107-01-2.jpg" alt="垂坤食品旗艦店" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 shadow-sm">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-amber-100 text-amber-600 p-2 rounded-lg">
+                                <i class="fa-solid fa-gift text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800">垂坤食品旗艦店</h3>
+                        </div>
+                        <p class="text-slate-600 mb-4 leading-relaxed text-justify">
+                            位於苑裡交流道旁的超人氣伴手禮名店。販售各式高 CP 值肉乾、餅乾與古早味零嘴，買滿戰利品開心賦歸！
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-sm mt-8 border-t border-slate-700">
+        <p>行程規劃僅供參考，請依實際交通狀況彈性調整。</p>
+        <p class="mt-1"><i class="fa-solid fa-heart text-red-500"></i> 祝您一家人旅途平安愉快</p>
+    </footer>
+
+</body>
+</html>
